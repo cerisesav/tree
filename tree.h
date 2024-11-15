@@ -14,4 +14,8 @@ struct Node {
     struct Node *parent;
 };
 
+struct Tree {
+    struct Node*;
+}
+
 #endif

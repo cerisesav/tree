@@ -19,6 +19,9 @@ int main(int argc, const char** argv) {
     Node* root = TreeFromFile(tree_file);
     fclose(tree_file);
 
+    Definition(root);
+    RunAkinator(root);
+
     if (root) {
         TreeDump(root);
         TreeDtor(root);
