@@ -4,7 +4,10 @@
 #include "dump.h"
 #include "tree.h"
 
-Node* FreeNode (int value, Node *parent);
-void Insert (Node **head, int value);
+#define MAX_LINE 256
+
+void Insert (Node **head, data_t value, char* answer);
+void TreeDtor(Node *root);
+Node* TreeFromFile(FILE* tree_file);
 
 #endif

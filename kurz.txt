@@ -1,0 +1,17 @@
+{Phystech?
+
+	{Animal? {Cat? {1.5ka} {Dogs near 13-14 dorms}}
+
+	{Studies? {Always? {Человек-боталка} {Student while exams} }
+		{Normal Student} }
+
+	}
+
+	{Жесть? {Её? {DED} {History} }
+
+	}
+
+	{Connected with KWM? {Strange? {Kalinichenko} {EEEEEEEEESLIIIIIII? {Redkozubov} {Lukashov}}}
+		 {Illness? {Pneumonoultramicroscopicsilicovolcanoconiosis} {KSP} }
+	}
+}

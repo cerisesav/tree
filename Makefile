@@ -14,8 +14,8 @@ all: $(EXECUTABLE)
 $(EXECUTABLE): main.o dump.o functions.o
 	$(CC) main.o dump.o functions.o -o $(EXECUTABLE)
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) -c main.cpp
+main.o: main.cpp $(filename)
+	$(CC) $(CFLAGS) -c main.cpp $(filename)
 
 dump.o: dump.cpp
 	$(CC) $(CFLAGS) -c dump.cpp
@@ -24,7 +24,7 @@ functions.o: functions.cpp
 	$(CC) $(CFLAGS) -c functions.cpp
 
 run:
-	./$(EXECUTABLE)
+	./$(EXECUTABLE) $(filename)
 
 clean:
 	rm -rf *.o $(EXECUTABLE)
