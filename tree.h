@@ -15,7 +15,7 @@ struct Node {
 };
 
 struct Tree {
-    struct Node*;
-}
+    struct Node* root;
+};
 
 #endif

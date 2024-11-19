@@ -5,12 +5,12 @@
 
 #include "functions.h"
 
-static void ClearBuffer();
 static int LeftOrRight (char* answer);
-static Node* NodeCtor (data_t value, Node *parent)
+static Node* NodeCtor (data_t value, Node *parent);
 static Node* ReadNode(FILE* tree_file, Node* parent);
-void GetNodeFromFile(Node* node, FILE* file);
+static void GetNodeFromFile(Node* node, FILE* file);
 static void TrailingSpaces(char *buffer, size_t i);
+
 
 // tree (ptr to root) TreeCtor (runs NodeCtor) NodeCtor NodeDtor
 static void TrailingSpaces(char *buffer, size_t i) {
@@ -105,7 +105,7 @@ static Node* ReadNode(FILE* tree_file, Node* parent) {
 
     char* empty_string = (char*)"";
 
-    Node* node = NewNode(empty_string, parent);
+    Node* node = NodeCtor(empty_string, parent);
     GetNodeFromFile(node, tree_file);
     return node;
 }
@@ -150,69 +150,25 @@ char* Search(const Node* root, const char* word) {
         Search(root->right, word);
 }
 
-static void ClearBuffer() {
-    int symbol = getchar();
+Node* Insert (Node* node) {
 
-    assert (symbol != EOF);
+    puts("Enter the word you have guessed:");
+    char word[MAX_LINE] = "";
 
-    while(symbol != '\n') {
-        if (symbol == EOF)
-            break;
-        symbol = getchar();
-    }
-}
+    scanf("%s", word);
 
+    puts("Enter the option of difference:");
 
-void Insert (Node **head, data_t value, char* answer) {
+    char new_option[MAX_LINE] = "";
+    scanf(" %[^\n]", new_option);
 
-    Node *temp = nullptr;
+    Node* CharaNode = NodeCtor(new_option, node->parent);
 
-    if (*head == nullptr) {
-        *head = NewNode(value, nullptr);
-        return;
-    }
+    CharaNode->left = node;
+    node->parent = CharaNode;
 
-    temp = *head;
-
-    while (temp) {
-
-        if (LeftOrRight(answer) == 2) {
-
-            if (temp->right) {
-                temp = temp->right;
-                continue;
-
-            } else {
-                temp->right = NewNode(value, temp);
-                return;
-            }
-
-        } else if (LeftOrRight(answer) == 1) {
-
-            if (temp->left) {
-                temp = temp->left;
-                continue;
-
-            } else {
-                temp->left = NewNode(value, temp);
-                return;
-            }
-
-        } else {
-            return;
-        }
-    }
-}
-
-static int LeftOrRight (char* answer) {
-	if (strcmp(answer, "no") == 0) {
-		return 1;
-	}
-	else if (strcmp(answer, "yes") == 0) {
-		return 2;
-	}
-	else {
-		puts("norm pishi, pridurok");
-		return -1;
-	}
+    Node* NewNode = NodeCtor(word, CharaNode);
+    CharaNode->right = NewNode;
+    TreeDump(node);
+    return node;
 }

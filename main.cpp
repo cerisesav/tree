@@ -4,6 +4,7 @@
 #include "dump.h"
 #include "tree.h"
 #include "functions.h"
+#include "akinator.h"
 
 static int ARGS_REQUIRED_NUMBER = 2;
 static size_t INPUT_FILE_NAME_INDEX = 1;
@@ -19,7 +20,7 @@ int main(int argc, const char** argv) {
     Node* root = TreeFromFile(tree_file);
     fclose(tree_file);
 
-    Definition(root);
+    // Definition(root);
     RunAkinator(root);
 
     if (root) {
