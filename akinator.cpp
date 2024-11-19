@@ -8,46 +8,46 @@
 
 static char* AskQuestion(Node* node);
 static void ClearBuffer();
+static bool HandleYes(Node** node);
+static bool HandleNo(Node** node);
 
 bool RunAkinator(Node* node) {
-// types of functions, akinator works with 2 types: run
-
-	Node* root = node;
-
     while (true) {
 
-		char* answer = AskQuestion(node);
+        char* answer = AskQuestion(node);
 
         if (!strcmp(answer, "yes")) {
-
-            if (node->right != nullptr)
-            {
-                node = node->right;
-            }
-
-            else {
-                puts("i guessed, you are so silly");
+            if (!HandleYes(&node)) {
                 return false;
             }
         }
 
-        // separate functions
-        else if (!strcmp(answer, "no")) {
-
-            if (node->left != nullptr)
-            {
-                node = node->left;
-
-            }
-
-            else {
-                puts("i am so sorry(");
-				Insert(node);
-				//node = root;
+		else if (!strcmp(answer, "no")) {
+            if (!HandleNo(&node)) {
                 return false;
             }
         }
+    }
+}
 
+static bool HandleYes(Node** node) {
+    if ((*node)->right != nullptr) {
+        *node = (*node)->right;
+        return true;
+    } else {
+        puts("i guessed, you are so silly");
+        return false;
+    }
+}
+
+static bool HandleNo(Node** node) {
+    if ((*node)->left != nullptr) {
+        *node = (*node)->left;
+        return true;
+    } else {
+        puts("i am so sorry(");
+        Insert(*node);
+        return false;
     }
 }
 

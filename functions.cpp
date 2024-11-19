@@ -155,20 +155,30 @@ Node* Insert (Node* node) {
     puts("Enter the word you have guessed:");
     char word[MAX_LINE] = "";
 
-    scanf("%s", word);
+    scanf(" %[^\n]", word);
 
     puts("Enter the option of difference:");
 
     char new_option[MAX_LINE] = "";
+
     scanf(" %[^\n]", new_option);
 
-    Node* CharaNode = NodeCtor(new_option, node->parent);
+    Node* NewNode = NodeCtor(new_option, node->parent);
 
-    CharaNode->left = node;
-    node->parent = CharaNode;
+    NewNode->right = node;
+    node->parent = NewNode;
 
-    Node* NewNode = NodeCtor(word, CharaNode);
-    CharaNode->right = NewNode;
-    TreeDump(node);
-    return node;
+    Node* NewWord= NodeCtor(word, NewNode);
+    NewNode->left = NewWord;
+
+    if (NewNode->parent) {
+        if (NewNode->parent->left == node) {
+            NewNode->parent->left = NewNode;
+        } else {
+            NewNode->parent->right = NewNode;
+        }
+    }
+
+    TreeDump(NewNode);
+    return NewNode;
 }

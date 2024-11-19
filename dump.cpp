@@ -19,13 +19,13 @@ void TreeDot(FILE *tree, Node *root) {
 
 
         if (root->left) {
-            fprintf(tree, "    \"%s\":left:c -> \"%s\":root [label=\"NO\", color=\"#228b22\", fontcolor=\"#228b22\"];\n",
+            fprintf(tree, "    \"%s\":left:c -> \"%s\":root [label=\"NO\", color=\"#ff0000\", fontcolor=\"#000000\"];\n",
                     root->data, root->left->data);
             TreeDot(tree, root->left);
         }
 
         if (root->right) {
-            fprintf(tree, "    \"%s\":right:c -> \"%s\":root [label=\"YES\", color=\"#ff0000\", fontcolor=\"#ff0000\"];\n",
+            fprintf(tree, "    \"%s\":right:c -> \"%s\":root [label=\"YES\", color=\"#228b22\", fontcolor=\"#000000\"];\n",
                     root->data, root->right->data);
             TreeDot(tree, root->right);
         }
