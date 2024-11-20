@@ -5,6 +5,7 @@
 #include "tree.h"
 #include "functions.h"
 #include "akinator.h"
+#include "stack.h"
 
 static int ARGS_REQUIRED_NUMBER = 2;
 static size_t INPUT_FILE_NAME_INDEX = 1;
@@ -17,11 +18,14 @@ int main(int argc, const char** argv) {
     FILE* tree_file = fopen(argv[INPUT_FILE_NAME_INDEX], "r");
     assert(tree_file);
 
+    Stack* pathStack = StackCtor(10);
+    assert(pathStack);
+
     Node* root = TreeFromFile(tree_file);
     fclose(tree_file);
 
-    // Definition(root);
-    RunAkinator(root);
+    SelectMode(root, pathStack);
+    StackDtor(pathStack);
 
     if (root) {
         TreeDump(root);

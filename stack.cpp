@@ -31,7 +31,7 @@ void Push(Stack* stack, void* element) {
 void* Pop(Stack* stack) {
 
     if (stack->size == 0) {
-        return NULL;
+        return nullptr;
     }
 
     return stack->data[--stack->size];

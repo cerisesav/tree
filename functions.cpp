@@ -4,13 +4,13 @@
 #include <assert.h>
 
 #include "functions.h"
+#include "stack.h"
+#include "akinator.h"
 
-static int LeftOrRight (char* answer);
 static Node* NodeCtor (data_t value, Node *parent);
 static Node* ReadNode(FILE* tree_file, Node* parent);
 static void GetNodeFromFile(Node* node, FILE* file);
 static void TrailingSpaces(char *buffer, size_t i);
-
 
 // tree (ptr to root) TreeCtor (runs NodeCtor) NodeCtor NodeDtor
 static void TrailingSpaces(char *buffer, size_t i) {
@@ -123,31 +123,129 @@ Node* TreeFromFile(FILE* tree_file) {
     return root;
 }
 
-void Definition(Node* node) {
+bool SearchAndTrackWithDefinition(const Node* root, const char* word, Stack* pathStack, Stack* definitionStack) {
+    if (!root) return false;
 
-    puts("Enter of what word you want to see the definition");
+    Push(definitionStack, strdup(root->data));
 
-    char word[MAX_LINE] = "";
-
-    scanf("%s", word);
-
-    Search(node, word);
-
-}
-
-char* Search(const Node* root, const char* word) {
-
-    if (!strcmp(root -> data, word)) {
-
-        printf("%s = %s\n", word, root -> data);
-        return root->data;
+    if (!strcmp(root->data, word)) {
+        return true;
     }
 
-    if (root->left != nullptr)
-        Search(root->left, word);
+    if (root->left) {
+        Push(pathStack, strdup("NO"));
 
-    if (root->right != nullptr)
-        Search(root->right, word);
+        if (SearchAndTrackWithDefinition(root->left, word, pathStack, definitionStack)) {
+            return true;
+        }
+
+        Pop(pathStack);
+
+    }
+
+    if (root->right) {
+
+        Push(pathStack, strdup("YES"));
+        if (SearchAndTrackWithDefinition(root->right, word, pathStack, definitionStack)) {
+            return true;
+        }
+
+        Pop(pathStack);
+
+    }
+
+    free(Pop(definitionStack));
+    return false;
+}
+
+void FindDefinition(Node* node, Stack* pathStack) {
+
+    char word[MAX_LINE];
+    printf("Enter the word you want to find the definition for: ");
+    scanf("%s", word);
+
+    Stack* definitionStack = StackCtor(10);
+
+    if (SearchAndTrackWithDefinition(node, word, pathStack, definitionStack)) {
+
+        printf("%s = is ",  (char*)definitionStack->data[definitionStack->size-1]);
+
+        for (size_t i = 0; i < pathStack->size; i++) {
+
+            if (!strcmp((char*)pathStack->data[i], "NO")) {
+                printf("%s %s, ", "not", (char*)definitionStack->data[i]);
+            }
+            else
+                printf("%s, ", (char*)definitionStack->data[i]);
+        }
+
+        while (definitionStack->size > 0) {
+            free(Pop(definitionStack));
+        }
+
+        StackDtor(definitionStack);
+
+    } else {
+            printf("Word not found in the tree.\n");
+        }
+}
+
+Node* FindNodeByWord(Node* root, const char* word, Stack* pathStack) {
+
+    if (!root || pathStack->size >= pathStack->capacity - 1) {
+        return NULL;
+    }
+
+    if (!strcmp(root->data, word)) {
+        return root;
+    }
+
+    if (root->left) {
+
+        char* no_str = strdup("NO");
+        Push(pathStack, no_str);
+
+        Node* leftResult = FindNodeByWord(root->left, word, pathStack);
+        if (leftResult) return leftResult;
+
+        free(Pop(pathStack));
+    }
+
+    if (root->right) {
+
+        char* yes_str = strdup("YES");
+        Push(pathStack, yes_str);
+
+        Node* rightResult = FindNodeByWord(root->right, word, pathStack);
+
+        if (rightResult) return rightResult;
+
+        free(Pop(pathStack));
+    }
+
+    return NULL;
+}
+
+void SelectMode(Node* root, Stack* pathStack) {
+
+    printf("Choose an option:\n");
+    printf("1. Run Akinator\n");
+    printf("2. Find definition of a word\n");
+
+    int choice = 0;
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        RunAkinator(root);
+    }
+
+    else if (choice == 2) {
+        FindDefinition(root, pathStack);
+    }
+
+    else {
+        printf("Invalid choice.\n");
+    }
 }
 
 Node* Insert (Node* node) {

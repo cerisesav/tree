@@ -9,7 +9,9 @@
 Node* Insert (Node* node);
 void TreeDtor(Node *root);
 Node* TreeFromFile(FILE* tree_file);
-char* Search(const Node* root, const char* word);
-void Definition(Node* node);
+bool SearchAndTrackWithDefinition(const Node* root, const char* word, Stack* pathStack, Stack* definitionStack);
+void FindDefinition(Node* node, Stack* pathStack);
+void SelectMode(Node* root, Stack* pathStack);
+Node* FindNodeByWord(Node* root, const char* word, Stack* pathStack);
 
 #endif
