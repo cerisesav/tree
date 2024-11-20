@@ -193,7 +193,7 @@ void FindDefinition(Node* node, Stack* pathStack) {
 Node* FindNodeByWord(Node* root, const char* word, Stack* pathStack) {
 
     if (!root || pathStack->size >= pathStack->capacity - 1) {
-        return NULL;
+        return nullptr;
     }
 
     if (!strcmp(root->data, word)) {
