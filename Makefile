@@ -11,8 +11,8 @@ EXECUTABLE = main
 
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): main.o dump.o functions.o akinator.o stack.o
-	$(CC) main.o dump.o functions.o akinator.o stack.o -o $(EXECUTABLE)
+$(EXECUTABLE): main.o dump.o tree.o akinator.o stack.o
+	$(CC) main.o dump.o tree.o akinator.o stack.o -o $(EXECUTABLE)
 
 main.o: main.cpp $(filename)
 	$(CC) $(CFLAGS) -c main.cpp $(filename)
@@ -20,8 +20,8 @@ main.o: main.cpp $(filename)
 dump.o: dump.cpp
 	$(CC) $(CFLAGS) -c dump.cpp
 
-functions.o: functions.cpp
-	$(CC) $(CFLAGS) -c functions.cpp
+tree.o: tree.cpp
+	$(CC) $(CFLAGS) -c tree.cpp
 
 akinator.o: akinator.cpp
 	$(CC) $(CFLAFS) -c akinator.cpp

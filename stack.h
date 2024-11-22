@@ -1,7 +1,6 @@
 #ifndef STACK_H
 #define STACK_H
 
-
 enum CodeError {
     Overflow,
     Size,

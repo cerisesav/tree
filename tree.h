@@ -1,9 +1,12 @@
 #ifndef TREE_H
 #define TREE_H
 
-#define CMP_EQ(a, b) ((a) == (b))
-#define CMP_LT(a, b) ((a) < (b))
-#define CMP_GT(a, b) ((a) > (b))
+#include "stack.h"
+
+#define MAX_LINE 256
+
+#define LEFT_SEPARATOR '{'
+#define RIGHT_SEPARATOR '}'
 
 typedef char* data_t;
 
@@ -17,5 +20,11 @@ struct Node {
 struct Tree {
     struct Node* root;
 };
+
+Node* Insert (Node* node);
+void TreeDtor(Node *root);
+Node* TreeFromFile(FILE* tree_file);
+
+Node* FindNodeByWord(Node* root, const char* word, Stack* pathStack);
 
 #endif

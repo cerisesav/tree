@@ -4,7 +4,7 @@
 #include <assert.h>
 
 #include "dump.h"
-#include "functions.h"
+#include "tree.h"
 #include "stack.h"
 
 void StackDump(struct Stack* stk, const char *file, int line, const char *function)
